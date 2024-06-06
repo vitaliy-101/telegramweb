@@ -21,7 +21,7 @@
     <tr><td>Password</td>
     <td><input type="text" name="password" maxlength="16" placeholder="your password"></td></tr>
     <tr><td>Age</td>
-    <td><input type="text" name="age" maxlength="3" placeholder="your age"></td></tr>
+    <td><input type="number" name="age" maxlength="3" placeholder="your age"></td></tr>
     <tr><td>Email</td>
     <td><input type="text" name="email" maxlength="64" placeholder="your email"></td></tr>
     <tr><td><input class="send" type="submit" value="Send!" style="text-align:center"></td></tr>
@@ -68,8 +68,6 @@
         function validateAge(field){
             if (field=="")
                 return "No age\n"
-            else if (!field.match(/^\d+$/))
-                return "Not a number age"
             else if (age<18 || age>110)
                 return "Wrong age\n"
             else return ""
