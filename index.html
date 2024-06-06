@@ -68,7 +68,7 @@
         function validateAge(field){
             if (field=="")
                 return "No age\n"
-            else if (!parseInt(field))
+            else if (!field.match(/^\d+$/))
                 return "Not a number age"
             else if (age<18 || age>110)
                 return "Wrong age\n"
