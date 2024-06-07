@@ -6,53 +6,42 @@
 </head>
 <style>
     table {width: 100%; text-align: center}
+    .send {position: relative;
+        left: 50%;
+        transform: translate(-50%, 0);}
 </style>
 <body>
 <table class="signup" cellspacing="5" cellpadding="2" bgcolor="#eeeeeee">
     <th colspan="2" align="center">Registration form</th>
-    <form method="post" onsubmit="return validate(this)">
         <tr><td>Forename</td>
-            <td><input type="text" name="forename" maxlength="32" placeholder="your forename"></td></tr>
+            <td><input id="forename" type="text" name="forename" maxlength="32" placeholder="your forename"></td></tr>
         <tr><td>Surname</td>
-            <td><input type="text" name="surname" maxlength="32" placeholder="your surname"></td></tr>
+            <td><input id="surname" type="text" name="surname" maxlength="32" placeholder="your surname"></td></tr>
         <tr><td>Email</td>
-            <td><input type="text" name="email" maxlength="64" placeholder="your email"></td></tr>
+            <td><input id="email" type="text" name="email" maxlength="64" placeholder="your email"></td></tr>
         <tr><td>Phone number</td>
-            <td><input type="text" name="phonenumber" maxlength="12" placeholder="your phone number"></td></tr>
-        <tr><td><input id="send" class="send" type="submit" value="Send!" style="text-align:center"></td></tr>
-    </form>
-    <div class="result"></div>
+            <td><input id="phonenumber" type="text" name="phonenumber" maxlength="12" placeholder="your phone number"></td></tr>
 </table>
-
+<button id="send" class="send" onclick="myFunction()">Send!</button>
 <iframe loading="lazy" src="https://yandex.ru/map-widget/v1/?um=constructor%3A64ed3a5957b9e1cbfebcb76194568c822d39a3e07713786fbdda720316d9d4b5&amp;source=constructor" width="1200" height="500" frameborder="0"></iframe>
-
 </body>
 <script src="http://telegram.org/js/telegram-web-app.js"></script>
 <script>
     let tg = window.Telegram.Webapp;
     let send = document.getElementById('send')
     tg.expand()
-    function validate(form){
-        fail = validateForename(form.forename.value)
-        fail += validateSurname(form.surname.value)
-        fail += validateEmail(form.email.value)
-        if (fail==""){
-            let data = {
-                forename: form.forename.value,
-                surname: form.surname.value,
-                email: form.email.value,
-                phonenumber: form.phonenumber.value
-            }
-            tg.sendData(JSON.stringify(data))
-            tg.close()
-        }
-        else { alert(fail)}
-    }
     function validateForename(field){
         return (field=="") ? "No forename\n" : ""
     }
     function validateSurname(field){
         return (field=="") ? "No surname\n" : ""
+    }
+    function validatePhoneNumber(field){
+        if (field=="")
+            return "No phone number\n"
+        else if (/^\d+$/.test(field))
+            return "Incorrect format of phone number\n"
+        else return ""
     }
     function validateEmail(field){
         if (field=="")
@@ -62,6 +51,27 @@
             /[^a-zA-Z0-9.@]/.test(field))
             return "Incorrect format of email\n"
         else return ""
+    }
+    function myFunction(){
+        let forename = document.getElementById('forename').value;
+        let surname = document.getElementById('surname').value;
+        let email = document.getElementById('email').value;
+        let phonenumber = document.getElementById('phonenumber').value;
+        fail = validateForename(forename);
+        fail += validateSurname(surname);
+        fail += validateEmail(email);
+        fail +=validatePhoneNumber(phonenumber)
+        if (fail==""){
+            let data = {
+                forename: forename,
+                surname: surname,
+                email: email,
+                phonenumber: phonenumber
+            }
+            tg.sendData(JSON.stringify(data));
+            tg.close();
+        }
+        else { alert(fail)}
     }
 </script>
 </html>
