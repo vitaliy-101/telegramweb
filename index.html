@@ -10,18 +10,17 @@
 <body>
 <table class="signup" cellspacing="5" cellpadding="2" bgcolor="#eeeeeee">
     <th colspan="2" align="center">Registration form</th>
-    <tr><td colspan="2">Unfortunately your form has these mistakes:<font color="red" size="1"></font></p></td></tr>
-    <form method="post">
-    <tr><td>Forename</td>
-    <td><input type="text" name="forename" maxlength="32" placeholder="your forename"></td></tr>
-    <tr><td>Surname</td>
-    <td><input type="text" name="surname" maxlength="32" placeholder="your surname"></td></tr>
-    <tr><td>Email</td>
-    <td><input type="text" name="email" maxlength="64" placeholder="your email"></td></tr>
-    <tr><td>Phone number</td>
-    <td><input type="text" name="phonenumber" maxlength="12" placeholder="your phone number"></td></tr>
-    <tr><td><input id="send" class="send" type="submit" value="Send!" style="text-align:center"></td></tr>
-</form>
+    <form method="post" onsubmit="return validate(this)">
+        <tr><td>Forename</td>
+            <td><input type="text" name="forename" maxlength="32" placeholder="your forename"></td></tr>
+        <tr><td>Surname</td>
+            <td><input type="text" name="surname" maxlength="32" placeholder="your surname"></td></tr>
+        <tr><td>Email</td>
+            <td><input type="text" name="email" maxlength="64" placeholder="your email"></td></tr>
+        <tr><td>Phone number</td>
+            <td><input type="text" name="phonenumber" maxlength="12" placeholder="your phone number"></td></tr>
+        <tr><td><input id="send" class="send" type="submit" value="Send!" style="text-align:center"></td></tr>
+    </form>
     <div class="result"></div>
 </table>
 
@@ -31,75 +30,38 @@
 <script src="http://telegram.org/js/telegram-web-app.js"></script>
 <script>
     let tg = window.Telegram.Webapp;
-    let buy = document.getElementById('Buy');
-    let send = document.getElementById('order')
+    let send = document.getElementById('send')
     tg.expand()
-    send.addEventListener("click", () => {
+    function validate(form){
         fail = validateForename(form.forename.value)
-            fail += validateSurname(form.surname.value)
-            fail += validateEmail(form.email.value)
-
-            if (fail==""){
-                let data = {
-                    forename: form.forename.value,
-                    surname: form.surname.value,
-                    email: form.email.value,
-                    phonenumber: form.phonenumber.value
-                }
-                tg.sendData(JSON.stringify(data))
-                tg.close()
+        fail += validateSurname(form.surname.value)
+        fail += validateEmail(form.email.value)
+        if (fail==""){
+            let data = {
+                forename: form.forename.value,
+                surname: form.surname.value,
+                email: form.email.value,
+                phonenumber: form.phonenumber.value
             }
-                
-            else { alert(fail)}
-    })
-
-
-    
+            tg.sendData(JSON.stringify(data))
+            tg.close()
+        }
+        else { alert(fail)}
+    }
     function validateForename(field){
-            return (field=="") ? "No forename\n" : ""
-        }
-        function validateSurname(field){
-            return (field=="") ? "No surname\n" : ""
-        }
-        function validateUsername(field){
-            if (field=="")
-                return "No username\n"
-            else if (field.length<5)
-                return "Username should include minimum 5 symbols\n"
-            else if (/[^a-zA-Z0-9]/.test(field))
-                return "There are not allowed symbols in your username\n"
-            else return ""
-        }
-        function validatePassword(field){
-            if (field=="")
-                return "No password\n"
-            else if (field.length<8)
-                return "Password should include minimum 8 symbols\n"
-            else if (/[^a-zA-Z0-9]/.test(field))
-                return "There are not allowed symbols in your username\n"
-            else if (!/[a-z]/.test(field) ||
-                !/[A-Z]/.test(field) ||
-                !/[0-9]/.test(field))
-                return "Password should include minimum 1 a-z A-Z 0-9 symbol\n"
-            else return ""
-        }
-        function validateAge(field){
-            if (field=="")
-                return "No age\n"
-            else if (age<"18" || age>"110")
-                return "Wrong age\n"
-            else return ""
-        }
-        function validateEmail(field){
-            if (field=="")
-                return "No age\n"
-            else if (!field.indexOf(".")>0 ||
+        return (field=="") ? "No forename\n" : ""
+    }
+    function validateSurname(field){
+        return (field=="") ? "No surname\n" : ""
+    }
+    function validateEmail(field){
+        if (field=="")
+            return "No age\n"
+        else if (!field.indexOf(".")>0 ||
             !field.indexOf("@")>0 ||
             /[^a-zA-Z0-9.@]/.test(field))
-                return "Incorrect format of email\n"
-            else return ""
-        }
-
-
+            return "Incorrect format of email\n"
+        else return ""
+    }
 </script>
 </html>
