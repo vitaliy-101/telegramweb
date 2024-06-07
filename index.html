@@ -16,14 +16,10 @@
     <td><input type="text" name="forename" maxlength="32" placeholder="your forename"></td></tr>
     <tr><td>Surname</td>
     <td><input type="text" name="surname" maxlength="32" placeholder="your surname"></td></tr>
-    <tr><td>Username</td>
-    <td><input type="text" name="username" maxlength="16" placeholder="your username"></td></tr>
-    <tr><td>Password</td>
-    <td><input type="text" name="password" maxlength="16" placeholder="your password"></td></tr>
-    <tr><td>Age</td>
-    <td><input type="text" name="age" maxlength="3" placeholder="your age"></td></tr>
     <tr><td>Email</td>
     <td><input type="text" name="email" maxlength="64" placeholder="your email"></td></tr>
+    <tr><td>Phone number</td>
+    <td><input type="text" name="phonenumber" maxlength="12" placeholder="your phone number"></td></tr>
     <tr><td><input class="send" type="submit" value="Send!" style="text-align:center"></td></tr>
 </form>
     <div class="result"></div>
@@ -37,6 +33,29 @@
     let tg = window.Telegram.Webapp;
     let buy = document.getElementById('Buy');
     let order = document.getElementById('order')
+    tg.expand()
+    var MainButton = WebApp.MainButton;
+    var BackButton = WebApp.BackButton;
+
+    MainButton.show();
+    BackButton.show();
+
+    MainButton.onClick(function() {
+      WebApp.showAlert("Хорошо, ты нажал на главную кнопку.");
+    });
+    WebApp.onEvent('mainButtonClicked', function() {
+      /* also */
+    });
+
+    BackButton.onClick(function() {
+      WebApp.showAlert("Нет пути назад!");
+      
+      BackButton.hide();
+    });
+
+
+
+    
     function validateForename(field){
             return (field=="") ? "No forename\n" : ""
         }
