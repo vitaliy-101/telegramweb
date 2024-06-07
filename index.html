@@ -11,7 +11,7 @@
 <table class="signup" cellspacing="5" cellpadding="2" bgcolor="#eeeeeee">
     <th colspan="2" align="center">Registration form</th>
     <tr><td colspan="2">Unfortunately your form has these mistakes:<font color="red" size="1"></font></p></td></tr>
-    <form method="post" action="regadv.php" onsubmit="return validate(this)">
+    <form method="post">
     <tr><td>Forename</td>
     <td><input type="text" name="forename" maxlength="32" placeholder="your forename"></td></tr>
     <tr><td>Surname</td>
@@ -20,7 +20,7 @@
     <td><input type="text" name="email" maxlength="64" placeholder="your email"></td></tr>
     <tr><td>Phone number</td>
     <td><input type="text" name="phonenumber" maxlength="12" placeholder="your phone number"></td></tr>
-    <tr><td><input class="send" type="submit" value="Send!" style="text-align:center"></td></tr>
+    <tr><td><input id="send" class="send" type="submit" value="Send!" style="text-align:center"></td></tr>
 </form>
     <div class="result"></div>
 </table>
@@ -32,27 +32,26 @@
 <script>
     let tg = window.Telegram.Webapp;
     let buy = document.getElementById('Buy');
-    let order = document.getElementById('order')
+    let send = document.getElementById('order')
     tg.expand()
-    var MainButton = WebApp.MainButton;
-    var BackButton = WebApp.BackButton;
+    send.addEventListener("click", () => {
+        fail = validateForename(form.forename.value)
+            fail += validateSurname(form.surname.value)
+            fail += validateEmail(form.email.value)
 
-    MainButton.show();
-    BackButton.show();
-
-    MainButton.onClick(function() {
-      WebApp.showAlert("Хорошо, ты нажал на главную кнопку.");
-    });
-    WebApp.onEvent('mainButtonClicked', function() {
-      /* also */
-    });
-
-    BackButton.onClick(function() {
-      WebApp.showAlert("Нет пути назад!");
-      
-      BackButton.hide();
-    });
-
+            if (fail==""){
+                let data = {
+                    forename: form.forename.value,
+                    surname: form.surname.value,
+                    email: form.email.value,
+                    phonenumber: form.phonenumber.value
+                }
+                tg.sendData(JSON.stringify(data))
+                tg.close()
+            }
+                
+            else { alert(fail)}
+    })
 
 
     
@@ -100,18 +99,7 @@
                 return "Incorrect format of email\n"
             else return ""
         }
-        function validate(form){
-            fail = validateForename(form.forename.value)
-            fail += validateSurname(form.surname.value)
-            fail += validateUsername(form.username.value)
-            fail += validatePassword(form.password.value)
-            fail += validateAge(form.age.value)
-            fail += validateEmail(form.email.value)
 
-            if (fail=="")
-                return true
-            else { alert(fail);return false;}
-        }
 
 </script>
 </html>
