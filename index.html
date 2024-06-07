@@ -27,8 +27,9 @@
 <iframe loading="lazy" src="https://yandex.ru/map-widget/v1/?um=constructor%3A64ed3a5957b9e1cbfebcb76194568c822d39a3e07713786fbdda720316d9d4b5&amp;source=constructor" width="1200" height="500" frameborder="0"></iframe>
 </body>
 <script>
-    let tg = window.Telegram.Webapp;
+    let tg = window.Telegram.WebApp;
     tg.showAlert(`Добро пожаловать, @${tg.WebAppUser.username}.`);
+    alert(tg.WebAppUser.username)
     let send = document.getElementById('send')
     tg.expand()
     function validateForename(field){
@@ -40,7 +41,7 @@
     function validatePhoneNumber(field){
         if (field=="")
             return "No phone number\n"
-        else if (/^\d+$/.test(field))
+        else if (!(/^\d+$/.test(field)))
             return "Incorrect format of phone number\n"
         else return ""
     }
