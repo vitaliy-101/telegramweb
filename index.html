@@ -28,7 +28,7 @@
 </body>
 <script>
     let tg = window.Telegram.Webapp;
-    tg.showAlert(`Добро пожаловать, @${WebApp.WebAppUser.username}.`);
+    tg.showAlert(`Добро пожаловать, @${tg.WebAppUser.username}.`);
     let send = document.getElementById('send')
     tg.expand()
     function validateForename(field){
