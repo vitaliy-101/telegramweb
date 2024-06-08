@@ -28,8 +28,6 @@
 </body>
 <script>
     let tg = window.Telegram.WebApp;
-    tg.showAlert(`Добро пожаловать, @${tg.WebAppUser.username}.`);
-    alert(tg.WebAppUser.username)
     let send = document.getElementById('send')
     tg.expand()
     function validateForename(field){
@@ -72,7 +70,6 @@
             }
             tg.sendData(JSON.stringify(data));
             tg.close();
-            alert(1)
         }
         else { alert(fail)}
     }
